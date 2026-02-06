@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Training Dashboard</title>
+  <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body style="font-family:sans-serif; background:#111111; color:rgb(255, 255, 255);">
+  <h1>Model Training Dashboard</h1>
+  <p id="epoch">Epoch: 0</p>
+  <p id="loss">Loss: 0.0</p>
+  <p id="time">Time: 0s</p>
+
+  <canvas id="lossChart" width="600" height="300"></canvas>
+
+  <script>
+      async function pollUpdates() {
+          const response = await fetch('/latest');
+          const data = await response.json();
+          console.log("Polled data:", data);
+          document.getElementById('epoch').innerText = `Epoch: ${data.epoch}`;
+          document.getElementById('loss').innerText = `Loss: ${data.loss}`;
+          document.getElementById('time').innerText = `Time: ${data.time}`;
+      }
+      setInterval(pollUpdates, 10000);
+</script>
+</body>
+</html>
